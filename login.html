@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PetShop</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <script src="assets/js/auth.js"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+
+        <h2 class="text-3xl font-bold text-center text-emerald-600 mb-6">
+            Login
+        </h2>
+
+        <form id="loginForm" class="space-y-4">
+
+            <input type="email" id="email" placeholder="Email" required class="w-full border p-3 rounded-lg">
+
+            <input type="password" id="password" placeholder="Password" required class="w-full border p-3 rounded-lg">
+
+            <button type="submit" class="w-full bg-emerald-600 text-white py-3 rounded-lg hover:bg-emerald-700">
+                Login
+            </button>
+
+        </form>
+
+        <p class="text-center mt-4">
+            Don't have an account?
+            <a href="register.html" class="text-emerald-600 font-semibold">
+                Register
+            </a>
+        </p>
+
+        <p id="errorMsg" class="text-red-500 text-center mt-4"></p>
+
+    </div>
+
+    <script>
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", function (e) {
+
+                e.preventDefault();
+
+                const email =
+                    document.getElementById("email").value.trim();
+
+                const password =
+                    document.getElementById("password").value;
+
+                const users =
+                    JSON.parse(
+                        localStorage.getItem("users") || "[]"
+                    );
+
+                const user = users.find(
+                    u =>
+                        u.email === email &&
+                        u.password === password
+                );
+
+                if (!user) {
+
+                    document.getElementById("errorMsg")
+                        .innerText =
+                        "Invalid email or password";
+
+                    return;
+                }
+
+                localStorage.setItem(
+                    "currentUser",
+                    JSON.stringify(user)
+                );
+
+                const redirectUrl =
+                    localStorage.getItem("redirectAfterLogin")
+                    || "index.html";
+
+                localStorage.removeItem(
+                    "redirectAfterLogin"
+                );
+
+                window.location.replace(
+                    redirectUrl
+                );
+
+            });
+
+    </script>
+
+</body>
+
+</html>

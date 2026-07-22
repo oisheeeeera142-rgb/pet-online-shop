@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - PetShop</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <script src="assets/js/auth.js" defer></script>
+    <script src="assets/js/products.js" defer></script>
+    <script src="assets/js/cart.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
+</head>
+
+<body class="bg-gray-50">
+
+    <!-- NAVBAR -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+            <div class="text-2xl font-bold text-emerald-600">
+                🐾 PetShop
+            </div>
+
+            <div class="hidden md:flex gap-6 items-center">
+                <a href="index.html" class="text-gray-700 hover:text-emerald-600">Home</a>
+                <a href="products.html" class="text-gray-700 hover:text-emerald-600">Products</a>
+                <div id="navbarAuth" class="flex gap-4 items-center"></div>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- CHECKOUT -->
+    <section class="container mx-auto px-6 py-10">
+
+        <h1 class="text-3xl font-bold mb-6">Checkout</h1>
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- FORM -->
+            <div class="bg-white p-6 rounded shadow">
+                <h2 class="text-xl font-semibold mb-4">Shipping Details</h2>
+
+                <form id="checkoutForm" class="space-y-4">
+
+                    <input type="text" id="name" placeholder="Full Name" required />
+                    <input type="text" id="address" placeholder="Address" required />
+                    <input type="text" id="phone" placeholder="Phone Number" required />
+
+                    <select id="payment" class="w-full">
+                        <option value="cod">Cash on Delivery</option>
+                        <option value="bkash">bKash</option>
+                        <option value="nagad">Nagad</option>
+                    </select>
+
+                    <button type="submit" class="btn-primary w-full">
+                        Place Order
+                    </button>
+
+                </form>
+            </div>
+
+            <!-- SUMMARY -->
+            <div class="bg-white p-6 rounded shadow">
+                <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
+
+                <div id="checkoutSummary" class="space-y-2"></div>
+
+                <div class="mt-4 font-bold text-xl">
+                    Total: <span id="checkoutTotal">৳0</span>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            if (!isLoggedIn()) {
+                localStorage.setItem("redirectAfterLogin", window.location.href);
+                window.location.href = "login.html";
+                return;
+            }
+
+            renderNavbar();
+
+            const cart = getCart();
+            const summary = document.getElementById("checkoutSummary");
+
+            summary.innerHTML = cart.map(item => `
+                <div class="flex justify-between text-sm">
+                    <span>${item.name} x ${item.qty}</span>
+                    <span>৳${item.price * item.qty}</span>
+                </div>
+            `).join("");
+
+            document.getElementById("checkoutTotal").innerText = "৳" + getCartTotal();
+
+            document.getElementById("checkoutForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                localStorage.removeItem(getCartKey());
+
+                alert("Order placed successfully!");
+                window.location.href = "index.html";
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>
