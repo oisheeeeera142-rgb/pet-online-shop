@@ -67,31 +67,5 @@ pet-online-shop/
 * Registration Page
 * User Profile Page
 
-## Installation
 
-1. Clone the repository
 
-```bash
-git clone https://github.com/your-username/pet-online-shop.git
-```
-
-2. Open the project folder
-
-```bash
-cd pet-online-shop
-```
-
-3. Run using Live Server or open `index.html` in your browser.
-
-## Future Improvements
-
-* Online Payment Gateway
-* Admin Dashboard
-* Product Search & Filtering
-* Wishlist Functionality
-* Order Tracking System
-* Database Integration
-
-## Author
-
-Developed as a Web Technology Project.
