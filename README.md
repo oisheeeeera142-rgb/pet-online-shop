@@ -37,8 +37,8 @@ A modern and responsive Pet Online Shopping Website developed using HTML, CSS, a
 pet-online-shop/
 │
 ├── assets/
-│   ├── css/
-│   │   └── style.css
+│   ├
+│   │   
 │   └── js/
 │       ├── app.js
 │       ├── auth.js
