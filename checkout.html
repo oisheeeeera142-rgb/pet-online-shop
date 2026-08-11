@@ -106,7 +106,15 @@
             document.getElementById("checkoutForm").addEventListener("submit", function (e) {
                 e.preventDefault();
 
-                localStorage.removeItem(getCartKey());
+                // Guard against an empty cart (e.g. page reopened after a previous checkout)
+                if (!getCart().length) {
+                    alert("Your cart is empty.");
+                    window.location.href = "products.html";
+                    return;
+                }
+
+              
+                placeOrder();
 
                 alert("Order placed successfully!");
                 window.location.href = "index.html";

@@ -75,6 +75,48 @@ function getCartTotal() {
     return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 }
 
+// ---------- ORDERS ----------
+// Orders are stored per-user, mirroring the existing userCart_<id> pattern.
+function getOrdersKey() {
+    const user = getCurrentUser();
+    return `userOrders_${user.id}`;
+}
+
+function getOrders() {
+    if (!isLoggedIn()) return [];
+    return JSON.parse(localStorage.getItem(getOrdersKey()) || "[]");
+}
+
+function saveOrders(orders) {
+    localStorage.setItem(getOrdersKey(), JSON.stringify(orders));
+}
+
+// Saves the current cart as ONE completed order, then clears the cart.
+// Returns the created order, or null if there was nothing to order.
+function placeOrder() {
+    if (!isLoggedIn()) return null;
+
+    const cart = getCart();
+    if (!cart.length) return null;
+
+    const order = {
+        id: Date.now(),
+        date: new Date().toLocaleDateString(),
+        itemCount: cart.reduce((sum, item) => sum + item.qty, 0),
+        total: getCartTotal(),
+        status: "Completed",
+        items: cart
+    };
+
+    const orders = getOrders();
+    orders.unshift(order);
+    saveOrders(orders);
+
+    saveCart([]);
+
+    return order;
+}
+
 function renderCart() {
     const container = document.getElementById("cartItems");
     const totalBox = document.getElementById("cartTotal");

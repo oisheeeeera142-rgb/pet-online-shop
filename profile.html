@@ -4,82 +4,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - PetShop</title>
+    <title>My Account - PetShop</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet" href="assets/css/style.css">
 
     <script src="assets/js/auth.js" defer></script>
+    <script src="assets/js/cart.js" defer></script>
     <script src="assets/js/app.js" defer></script>
 </head>
 
-<body class="bg-gray-50">
+<body class="bg-gray-50 text-slate-800">
 
     <!-- NAVBAR -->
     <nav class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
 
-            <div class="text-2xl font-bold text-emerald-600">
+            <a href="index.html" class="text-2xl font-bold text-emerald-600">
                 🐾 PetShop
-            </div>
+            </a>
 
-            <div class="hidden md:flex gap-6 items-center">
-                <a href="index.html" class="text-gray-700 hover:text-emerald-600">Home</a>
-                <a href="products.html" class="text-gray-700 hover:text-emerald-600">Products</a>
-                <div id="navbarMenu"></div>" class="flex gap-4 items-center">
-            </div>
-        </div>
+            <div id="navbarMenu" class="flex items-center gap-6"></div>
 
         </div>
     </nav>
 
-    <!-- PROFILE -->
-    <section class="container mx-auto px-6 py-10">
+    <!-- PROFILE DASHBOARD -->
+    <section class="container mx-auto px-4 sm:px-6 py-8 lg:py-10 max-w-7xl">
 
-        <h1 class="text-3xl font-bold mb-6">My Profile</h1>
+        <div class="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6 items-start">
 
-        <div class="grid md:grid-cols-2 gap-6">
+            <!-- ===================== SIDEBAR ===================== -->
+            <aside class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 lg:sticky lg:top-24">
 
-            <!-- PROFILE INFO -->
-            <div class="bg-white p-6 rounded shadow">
+                <div class="text-center">
 
-                <div class="text-center mb-6">
-                    <img id="profileImg" class="w-24 h-24 rounded-full mx-auto object-cover"
-                        src="https://via.placeholder.com/100" />
+                    <div class="relative w-24 h-24 mx-auto">
+                        <img id="profileImg"
+                            class="w-24 h-24 rounded-full object-cover border-4 border-emerald-50 bg-emerald-50"
+                            alt="Profile photo" />
+
+                        <button id="changePhotoBtn" type="button" title="Change photo"
+                            class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center shadow-md transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                                </path>
+                                <circle cx="12" cy="13" r="4"></circle>
+                            </svg>
+                        </button>
+                        <input type="file" id="photoInput" accept="image/*" class="hidden" />
+                    </div>
+
+                    <h2 id="sidebarName" class="mt-4 text-lg font-bold text-slate-800"></h2>
+                    <p id="sidebarEmail" class="text-sm text-gray-500 break-all"></p>
                 </div>
 
-                <form id="profileForm" class="space-y-4">
+                <nav class="mt-6 space-y-1">
 
-                    <input type="text" id="name" placeholder="Name" />
-                    <input type="email" id="email" placeholder="Email" />
+                    <a href="#personalInfo" data-scroll
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition">
+                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"></path>
+                        </svg>
+                        Edit Profile
+                    </a>
 
-                    <input type="file" id="image" accept="image/*" />
+                    <a href="#ordersSection" data-scroll
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition">
+                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                            <path d="M3 6h18"></path>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                        My Orders
+                    </a>
 
-                    <button type="submit" class="btn-primary w-full">
-                        Update Profile
+                    <a href="#settingsSection" data-scroll
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition">
+                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z">
+                            </path>
+                        </svg>
+                        Account Settings
+                    </a>
+
+                    <button id="sidebarLogoutBtn" type="button"
+                        class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition mt-2">
+                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Logout
                     </button>
 
-                </form>
+                </nav>
+            </aside>
 
-                <button onclick="logoutUser()" class="mt-4 w-full bg-red-500 text-white py-2 rounded hover:bg-red-600">
-                    Logout
-                </button>
+            <!-- ===================== MAIN CONTENT ===================== -->
+            <div class="space-y-6 min-w-0">
+
+                <!-- HEADER -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h1 id="greeting" class="text-2xl font-bold text-slate-800"></h1>
+                    <p class="text-gray-500 mt-1">Manage your account information and orders.</p>
+                </div>
+
+                <!-- STATS -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+                    <div
+                        class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center gap-4 hover:shadow-md transition">
+                        <div
+                            class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                                <path d="M3 6h18"></path>
+                                <path d="M16 10a4 4 0 0 1-8 0"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Orders</p>
+                            <p id="statOrders" class="text-2xl font-bold text-slate-800">0</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center gap-4 hover:shadow-md transition">
+                        <div
+                            class="w-11 h-11 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Completed Orders</p>
+                            <p id="statCompleted" class="text-2xl font-bold text-slate-800">0</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center gap-4 hover:shadow-md transition">
+                        <div
+                            class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Cart Items</p>
+                            <p id="statCartItems" class="text-2xl font-bold text-slate-800">0</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- PERSONAL INFORMATION -->
+                <div id="personalInfo" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 scroll-mt-24">
+
+                    <div class="flex items-center justify-between mb-5">
+                        <h2 class="text-lg font-bold text-slate-800">Personal Information</h2>
+                        <button id="editInfoBtn" type="button"
+                            class="text-sm font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1.5">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"></path>
+                            </svg>
+                            Edit Profile
+                        </button>
+                    </div>
+
+                    <form id="personalInfoForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Full
+                                Name</label>
+                            <input type="text" id="fieldName" disabled
+                                class="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-slate-800 text-sm disabled:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition" />
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Email</label>
+                            <input type="email" id="fieldEmail" disabled
+                                class="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-slate-800 text-sm disabled:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition" />
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Phone
+                                Number</label>
+                            <input type="tel" id="fieldPhone" disabled placeholder="Not added yet"
+                                class="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-slate-800 text-sm disabled:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition" />
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <label
+                                class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Address</label>
+                            <input type="text" id="fieldAddress" disabled placeholder="Not added yet"
+                                class="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-slate-800 text-sm disabled:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition" />
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">City</label>
+                            <input type="text" id="fieldCity" disabled placeholder="Not added yet"
+                                class="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-slate-800 text-sm disabled:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition" />
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Postal
+                                Code</label>
+                            <input type="text" id="fieldPostal" disabled placeholder="Not added yet"
+                                class="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-slate-800 text-sm disabled:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition" />
+                        </div>
+
+                        <div id="saveInfoRow" class="sm:col-span-2 hidden pt-1">
+                            <button type="submit"
+                                class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
+                                Save Changes
+                            </button>
+                            <button type="button" id="cancelEditBtn"
+                                class="ml-2 text-sm font-semibold text-gray-500 hover:text-gray-700 px-5 py-2.5">
+                                Cancel
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- ORDER HISTORY -->
+                <div id="ordersSection" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 scroll-mt-24">
+                    <h2 class="text-lg font-bold text-slate-800 mb-5">My Recent Orders</h2>
+                    <div id="ordersContainer"></div>
+                </div>
+
+                <!-- ACCOUNT SETTINGS -->
+                <div id="settingsSection"
+                    class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 scroll-mt-24">
+                    <h2 class="text-lg font-bold text-slate-800 mb-5">Account Settings</h2>
+
+                    <div class="divide-y divide-gray-100">
+
+                        <!-- Change password -->
+                        <div class="py-4 first:pt-0">
+                            <button id="togglePasswordBtn" type="button"
+                                class="w-full flex items-center justify-between text-left">
+                                <span class="flex items-center gap-3">
+                                    <span
+                                        class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+                                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                        </svg>
+                                    </span>
+                                    <span>
+                                        <span class="block text-sm font-semibold text-slate-800">Change Password</span>
+                                        <span class="block text-xs text-gray-500">Update the password used to sign
+                                            in</span>
+                                    </span>
+                                </span>
+                                <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+
+                            <form id="passwordForm" class="hidden mt-4 space-y-3 pl-12">
+                                <input type="password" id="currentPassword" placeholder="Current password" required
+                                    class="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+                                <input type="password" id="newPassword" placeholder="New password" required
+                                    minlength="4"
+                                    class="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+                                <input type="password" id="confirmPassword" placeholder="Confirm new password" required
+                                    minlength="4"
+                                    class="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+                                <button type="submit"
+                                    class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
+                                    Update Password
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Email notifications -->
+                        <div class="py-4 flex items-center justify-between">
+                            <span class="flex items-center gap-3">
+                                <span
+                                    class="w-9 h-9 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                                    </svg>
+                                </span>
+                                <span>
+                                    <span class="block text-sm font-semibold text-slate-800">Email Notifications</span>
+                                    <span class="block text-xs text-gray-500">Order updates and offers from
+                                        PetShop</span>
+                                </span>
+                            </span>
+
+                            <button id="notifToggle" type="button" role="switch"
+                                class="relative inline-flex h-6 w-11 items-center rounded-full transition bg-gray-200">
+                                <span id="notifToggleDot"
+                                    class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition translate-x-1"></span>
+                            </button>
+                        </div>
+
+                        <!-- Logout -->
+                        <div class="py-4 flex items-center justify-between">
+                            <span class="flex items-center gap-3">
+                                <span
+                                    class="w-9 h-9 rounded-lg bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                        <polyline points="16 17 21 12 16 7"></polyline>
+                                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                                    </svg>
+                                </span>
+                                <span class="block text-sm font-semibold text-slate-800">Logout</span>
+                            </span>
+
+                            <button id="settingsLogoutBtn" type="button"
+                                class="text-sm font-semibold text-red-600 hover:text-red-700 px-4 py-2 rounded-lg hover:bg-red-50 transition">
+                                Logout
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
-
-            <!-- INFO BOX -->
-            <div class="bg-white p-6 rounded shadow">
-                <h2 class="text-xl font-semibold mb-4">Account Info</h2>
-
-                <p class="text-gray-600">Manage your profile details and keep your account updated.</p>
-            </div>
-
         </div>
-
     </section>
 
     <script>
+        const DEFAULT_AVATAR =
+            "data:image/svg+xml;utf8," + encodeURIComponent(
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
+                '<rect width="100" height="100" fill="#d1fae5"/>' +
+                '<circle cx="50" cy="38" r="18" fill="#10b981"/>' +
+                '<path d="M20 88c0-19 13-32 30-32s30 13 30 32" fill="#10b981"/>' +
+                '</svg>'
+            );
+
+        let currentUser = null;
+
         document.addEventListener("DOMContentLoaded", () => {
 
             if (!isLoggedIn()) {
@@ -90,58 +379,312 @@
 
             renderNavbar();
 
-            const user = getCurrentUser();
+            currentUser = getCurrentUser();
 
-            document.getElementById("name").value = user.name;
-            document.getElementById("email").value = user.email;
+            renderSidebar(currentUser);
+            renderHeader(currentUser);
+            renderStats(currentUser);
+            fillPersonalInfoFields(currentUser);
+            renderOrders(currentUser);
+            renderSettings(currentUser);
 
-            const img = document.getElementById("profileImg");
+            setupSmoothScrollLinks();
+            setupPhotoUpload();
+            setupEditToggle();
+            setupPersonalInfoForm();
+            setupPasswordForm();
+            setupNotifToggle();
+            setupLogoutButtons();
+        });
 
-            if (user.image) {
-                img.src = user.image;
-            }
+        // ---------- SIDEBAR ----------
+        function renderSidebar(user) {
+            document.getElementById("sidebarName").textContent = user.name;
+            document.getElementById("sidebarEmail").textContent = user.email;
+            document.getElementById("profileImg").src = user.image || DEFAULT_AVATAR;
+        }
 
-            document.getElementById("profileForm").addEventListener("submit", function (e) {
-                e.preventDefault();
+        // ---------- HEADER ----------
+        function renderHeader(user) {
+            const firstName = (user.name || "").split(" ")[0] || user.name;
+            document.getElementById("greeting").textContent = "Hello, " + firstName + " 👋";
+        }
 
-                let users = JSON.parse(localStorage.getItem("users") || "[]");
+        // ---------- STATS ----------
+        // getOrders() is defined in cart.js and reads userOrders_<currentUser.id>,
+        // the same key checkout.html writes to when an order is placed.
+        function renderStats(user) {
+            const cart = getCart();
+            const cartItemCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
-                const updatedUser = {
-                    ...user,
-                    name: document.getElementById("name").value,
-                    email: document.getElementById("email").value
-                };
+            const orders = getOrders();
+            const completed = orders.filter(o => o.status === "Completed").length;
 
-                const file = document.getElementById("image").files[0];
+            document.getElementById("statOrders").textContent = orders.length;
+            document.getElementById("statCompleted").textContent = completed;
+            document.getElementById("statCartItems").textContent = cartItemCount;
+        }
 
-                if (file) {
-                    const reader = new FileReader();
+        // ---------- PERSONAL INFORMATION ----------
+        function fillPersonalInfoFields(user) {
+            document.getElementById("fieldName").value = user.name || "";
+            document.getElementById("fieldEmail").value = user.email || "";
+            document.getElementById("fieldPhone").value = user.phone || "";
+            document.getElementById("fieldAddress").value = user.address || "";
+            document.getElementById("fieldCity").value = user.city || "";
+            document.getElementById("fieldPostal").value = user.postalCode || "";
+        }
 
-                    reader.onload = function () {
-                        updatedUser.image = reader.result;
+        function setEditMode(enabled) {
+            const ids = ["fieldName", "fieldEmail", "fieldPhone", "fieldAddress", "fieldCity", "fieldPostal"];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                el.disabled = !enabled;
+                el.classList.toggle("bg-gray-50", !enabled);
+                el.classList.toggle("bg-white", enabled);
+            });
+            document.getElementById("saveInfoRow").classList.toggle("hidden", !enabled);
+            document.getElementById("editInfoBtn").classList.toggle("hidden", enabled);
+        }
 
-                        saveUpdate(updatedUser, users);
-                    };
-
-                    reader.readAsDataURL(file);
-                } else {
-                    saveUpdate(updatedUser, users);
-                }
-
-                function saveUpdate(updatedUser, users) {
-
-                    const index = users.findIndex(u => u.id === user.id);
-                    users[index] = updatedUser;
-
-                    localStorage.setItem("users", JSON.stringify(users));
-                    localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-
-                    alert("Profile updated!");
-                    location.reload();
-                }
+        function setupEditToggle() {
+            document.getElementById("editInfoBtn").addEventListener("click", () => {
+                setEditMode(true);
+                document.getElementById("fieldName").focus();
             });
 
-        });
+            document.getElementById("cancelEditBtn").addEventListener("click", () => {
+                fillPersonalInfoFields(currentUser);
+                setEditMode(false);
+            });
+        }
+
+        function setupPersonalInfoForm() {
+            document.getElementById("personalInfoForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const users = getUsers();
+
+                const updatedUser = {
+                    ...currentUser,
+                    name: document.getElementById("fieldName").value.trim(),
+                    email: document.getElementById("fieldEmail").value.trim(),
+                    phone: document.getElementById("fieldPhone").value.trim(),
+                    address: document.getElementById("fieldAddress").value.trim(),
+                    city: document.getElementById("fieldCity").value.trim(),
+                    postalCode: document.getElementById("fieldPostal").value.trim()
+                };
+
+                const index = users.findIndex(u => u.id === currentUser.id);
+                if (index !== -1) {
+                    users[index] = updatedUser;
+                    saveUsers(users);
+                }
+
+                setCurrentUser(updatedUser);
+                currentUser = updatedUser;
+
+                setEditMode(false);
+                renderSidebar(currentUser);
+                renderHeader(currentUser);
+                renderNavbar();
+
+                showToast("Profile updated successfully");
+            });
+        }
+
+        // ---------- PROFILE PHOTO ----------
+        function setupPhotoUpload() {
+            const input = document.getElementById("photoInput");
+
+            document.getElementById("changePhotoBtn").addEventListener("click", () => input.click());
+
+            input.addEventListener("change", () => {
+                const file = input.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const users = getUsers();
+                    const updatedUser = { ...currentUser, image: reader.result };
+
+                    const index = users.findIndex(u => u.id === currentUser.id);
+                    if (index !== -1) {
+                        users[index] = updatedUser;
+                        saveUsers(users);
+                    }
+
+                    setCurrentUser(updatedUser);
+                    currentUser = updatedUser;
+
+                    document.getElementById("profileImg").src = updatedUser.image;
+                    renderNavbar();
+
+                    showToast("Profile photo updated");
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ---------- ORDERS ----------
+        function renderOrders(user) {
+            const container = document.getElementById("ordersContainer");
+            const orders = getOrders();
+
+            if (!orders.length) {
+                container.innerHTML = `
+                    <div class="text-center py-10">
+                        <div class="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                        </div>
+                        <p class="font-semibold text-slate-800">No orders yet</p>
+                        <p class="text-sm text-gray-500 mt-1">Start shopping and your orders will appear here.</p>
+                        <a href="products.html"
+                           class="inline-block mt-5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
+                            Browse Products
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            const badgeClass = {
+                Completed: "bg-emerald-50 text-emerald-700",
+                Pending: "bg-orange-50 text-orange-600",
+                Cancelled: "bg-red-50 text-red-600"
+            };
+
+            container.innerHTML = `
+                <div class="space-y-3">
+                    ${orders.map(order => `
+                        <div class="border border-gray-100 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-800">Order #${escapeHtml(String(order.id ?? ""))}</p>
+                                <p class="text-xs text-gray-500 mt-0.5">
+                                    ${escapeHtml(order.date ?? "")} · ${escapeHtml(String(order.itemCount ?? 0))} item(s)
+                                </p>
+                            </div>
+
+                            <div class="flex items-center gap-4 sm:gap-6">
+                                <span class="text-sm font-bold text-orange-500">৳${escapeHtml(String(order.total ?? 0))}</span>
+
+                                <span class="text-xs font-semibold px-2.5 py-1 rounded-full ${badgeClass[order.status] || 'bg-gray-100 text-gray-600'}">
+                                    ${escapeHtml(order.status ?? "Pending")}
+                                </span>
+
+                                <button type="button"
+                                        class="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    `).join("")}
+                </div>
+            `;
+        }
+
+        // ---------- SETTINGS ----------
+        function renderSettings(user) {
+            const notifKey = `emailNotifications_${user.id}`;
+            const enabled = localStorage.getItem(notifKey) !== "false";
+            setNotifToggleUI(enabled);
+        }
+
+        function setupPasswordForm() {
+            document.getElementById("togglePasswordBtn").addEventListener("click", () => {
+                document.getElementById("passwordForm").classList.toggle("hidden");
+            });
+
+            document.getElementById("passwordForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const current = document.getElementById("currentPassword").value;
+                const next = document.getElementById("newPassword").value;
+                const confirm = document.getElementById("confirmPassword").value;
+
+                if (current !== currentUser.password) {
+                    alert("Current password is incorrect.");
+                    return;
+                }
+
+                if (next !== confirm) {
+                    alert("New password and confirmation do not match.");
+                    return;
+                }
+
+                const users = getUsers();
+                const updatedUser = { ...currentUser, password: next };
+
+                const index = users.findIndex(u => u.id === currentUser.id);
+                if (index !== -1) {
+                    users[index] = updatedUser;
+                    saveUsers(users);
+                }
+
+                setCurrentUser(updatedUser);
+                currentUser = updatedUser;
+
+                this.reset();
+                this.classList.add("hidden");
+                showToast("Password updated successfully");
+            });
+        }
+
+        function setNotifToggleUI(enabled) {
+            const btn = document.getElementById("notifToggle");
+            const dot = document.getElementById("notifToggleDot");
+
+            btn.setAttribute("aria-checked", String(enabled));
+            btn.classList.toggle("bg-emerald-600", enabled);
+            btn.classList.toggle("bg-gray-200", !enabled);
+            dot.classList.toggle("translate-x-6", enabled);
+            dot.classList.toggle("translate-x-1", !enabled);
+        }
+
+        function setupNotifToggle() {
+            document.getElementById("notifToggle").addEventListener("click", function () {
+                const notifKey = `emailNotifications_${currentUser.id}`;
+                const currentlyEnabled = localStorage.getItem(notifKey) !== "false";
+                const next = !currentlyEnabled;
+
+                localStorage.setItem(notifKey, String(next));
+                setNotifToggleUI(next);
+            });
+        }
+
+        function setupLogoutButtons() {
+            document.getElementById("sidebarLogoutBtn").addEventListener("click", logoutUser);
+            document.getElementById("settingsLogoutBtn").addEventListener("click", logoutUser);
+        }
+
+        // ---------- HELPERS ----------
+        function setupSmoothScrollLinks() {
+            document.querySelectorAll("[data-scroll]").forEach(link => {
+                link.addEventListener("click", (e) => {
+                    const targetId = link.getAttribute("href");
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                });
+            });
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement("div");
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function showToast(message) {
+            const toast = document.createElement("div");
+            toast.textContent = message;
+            toast.className =
+                "fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-sm font-medium px-5 py-3 rounded-lg shadow-lg z-50";
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
     </script>
 
 </body>
