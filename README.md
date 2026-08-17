@@ -1,5 +1,6 @@
-# Pet Online Shop 🐾https://oisheeeeera142-rgb.github.io/pet-online-shop/
+# Pet Online Shop 🐾
 
+🔗 Live Demo:  https://oisheeeeera142-rgb.github.io/pet-online-shop/
 A modern and responsive Pet Online Shopping Website developed using HTML, CSS, and JavaScript. The platform allows users to browse pet products, view product details, manage carts, register accounts,  create and manage user accounts, and complete purchases through a clean and user-friendly interface.
 
 ## Features
